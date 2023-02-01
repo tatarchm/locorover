@@ -12,6 +12,10 @@ void execute_motion(unsigned char speed)
     delay(1000);
 }
 
+void setup()
+{
+}
+
 void loop()
 {
     execute_motion(SPEED_SLOW);

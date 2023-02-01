@@ -47,7 +47,7 @@ void stop()
     digitalWrite(B2PIN, LOW);
 }
 
-void setup()
+void setup_motor_pins()
 {
     pinMode(A1PIN, OUTPUT);
     pinMode(A2PIN, OUTPUT);
