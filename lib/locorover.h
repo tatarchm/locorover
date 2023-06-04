@@ -1,61 +1,101 @@
-#define A1PIN 2
-#define A2PIN 3
-#define B1PIN 4
-#define B2PIN 5
-
 #define SPEED_SLOW 128
 #define SPEED_MEDIUM 192
 #define SPEED_FAST 255
 
-void forward(unsigned char speed)
+struct MotorControllerPins {
+    int A1PIN;
+    int A2PIN;
+    int B1PIN;
+    int B2PIN;
+};
+
+MotorControllerPins PIN_DEF[2];
+
+void rotate_motor(unsigned char controller_ind, unsigned char motor, unsigned char direction, unsigned char speed)
 {
-    digitalWrite(A1PIN, LOW);
-    analogWrite(A2PIN, speed);
-    digitalWrite(B1PIN, LOW);
-    analogWrite(B2PIN, speed);
+    unsigned char pin1, pin2;
+    unsigned char v1, v2;
+    switch(motor)
+    {
+        case 0:
+        {
+            pin1 = PIN_DEF[controller_ind].A1PIN;
+            pin2 = PIN_DEF[controller_ind].A2PIN;
+            break;
+        }
+        case 1:
+        {
+            pin1 = PIN_DEF[controller_ind].B1PIN;
+            pin2 = PIN_DEF[controller_ind].B2PIN;
+            break;
+        }
+    }
+    switch(direction)
+    {
+        case 0:
+        {
+            v1 = LOW;
+            v2 = speed;
+            break;
+        }
+        case 1:
+        {
+            v1 = HIGH;
+            v2 = 255 - speed;
+            break;
+        }
+    }
+    digitalWrite(pin1, v1);
+    analogWrite(pin2, v2);
 }
 
-void backward(unsigned char speed)
+void stop_motor(unsigned char controller_ind, unsigned char motor)
 {
-    digitalWrite(A1PIN, HIGH);
-    analogWrite(A2PIN, 255 - speed);
-    digitalWrite(B1PIN,  HIGH);
-    analogWrite(B2PIN, 255 - speed);
+    unsigned char pin1, pin2;
+    switch(motor)
+    {
+        case 0:
+        {
+            pin1 = PIN_DEF[controller_ind].A1PIN;
+            pin2 = PIN_DEF[controller_ind].A2PIN;
+            break;
+        }
+        case 1:
+        {
+            pin1 = PIN_DEF[controller_ind].B1PIN;
+            pin2 = PIN_DEF[controller_ind].B2PIN;
+            break;
+        }
+    }
+    digitalWrite(pin1, LOW);
+    digitalWrite(pin2, LOW);
 }
 
-void left(unsigned char speed)
+void setup_motor_pins(unsigned char controller_ind)
 {
-    digitalWrite(A1PIN, LOW);
-    analogWrite(A2PIN, speed);
-    digitalWrite(B1PIN, LOW);
-    digitalWrite(B2PIN, LOW);
-}
+    if (controller_ind == 0)
+    {
+        PIN_DEF[controller_ind].A1PIN = 2;
+        PIN_DEF[controller_ind].A2PIN = 3;
+        PIN_DEF[controller_ind].B1PIN = 4;
+        PIN_DEF[controller_ind].B2PIN = 5;
+    }
+    else if (controller_ind == 1)
+    {
+        PIN_DEF[controller_ind].A1PIN = 8;
+        PIN_DEF[controller_ind].A2PIN = 9;
+        PIN_DEF[controller_ind].B1PIN = 10;
+        PIN_DEF[controller_ind].B2PIN = 11;
+    }
+    
 
-void right(unsigned char speed)
-{
-    digitalWrite(A1PIN, LOW);
-    analogWrite(A2PIN, LOW);
-    digitalWrite(B1PIN, LOW);
-    analogWrite(B2PIN, speed);
-}
+    pinMode(PIN_DEF[controller_ind].A1PIN, OUTPUT);
+    pinMode(PIN_DEF[controller_ind].A2PIN, OUTPUT);
+    pinMode(PIN_DEF[controller_ind].B1PIN, OUTPUT);
+    pinMode(PIN_DEF[controller_ind].B2PIN, OUTPUT);
 
-void stop()
-{
-    digitalWrite(A1PIN, LOW);
-    digitalWrite(A2PIN, LOW);
-    digitalWrite(B1PIN, LOW);
-    digitalWrite(B2PIN, LOW);
-}
-
-void setup_motor_pins()
-{
-    pinMode(A1PIN, OUTPUT);
-    pinMode(A2PIN, OUTPUT);
-    pinMode(B1PIN, OUTPUT);
-    pinMode(B2PIN, OUTPUT);
-
-    digitalWrite(A1PIN, LOW);
-    digitalWrite(A2PIN, LOW);
-    digitalWrite(B1PIN, LOW);
-    digitalWrite(B2PIN, LOW);
+    digitalWrite(PIN_DEF[controller_ind].A1PIN, LOW);
+    digitalWrite(PIN_DEF[controller_ind].A2PIN, LOW);
+    digitalWrite(PIN_DEF[controller_ind].B1PIN, LOW);
+    digitalWrite(PIN_DEF[controller_ind].B2PIN, LOW);
 }
