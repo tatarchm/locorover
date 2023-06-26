@@ -75,15 +75,15 @@ void setup_motor_pins(unsigned char controller_ind)
 {
     if (controller_ind == 0)
     {
-        PIN_DEF[controller_ind].A1PIN = 2;
-        PIN_DEF[controller_ind].A2PIN = 3;
-        PIN_DEF[controller_ind].B1PIN = 4;
-        PIN_DEF[controller_ind].B2PIN = 5;
+        PIN_DEF[controller_ind].A1PIN = 4;
+        PIN_DEF[controller_ind].A2PIN = 5;
+        PIN_DEF[controller_ind].B1PIN = 8;
+        PIN_DEF[controller_ind].B2PIN = 9;
     }
     else if (controller_ind == 1)
     {
-        PIN_DEF[controller_ind].A1PIN = 8;
-        PIN_DEF[controller_ind].A2PIN = 9;
+        PIN_DEF[controller_ind].A1PIN = 7;
+        PIN_DEF[controller_ind].A2PIN = 6;
         PIN_DEF[controller_ind].B1PIN = 10;
         PIN_DEF[controller_ind].B2PIN = 11;
     }
