@@ -53,7 +53,7 @@ typedef struct {
 typedef struct {
   unsigned char trig_pin;
   unsigned char echo_pin;
-  float distance;
+  int distance;
 } Sonar;
 
 //Motor
@@ -67,7 +67,7 @@ void setup_servo(unsigned char servo_ind, unsigned char pin);
 
 //Sonar
 void setup_sonar(unsigned char sonar_ind, unsigned char trig_pin, unsigned char echo_pin);
-float get_sonar_distance(unsigned char sonar_ind);
+int get_sonar_distance(unsigned char sonar_ind);
 void measure_sonar_distance(unsigned char sonar_ind);
 
 //Remote

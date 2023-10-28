@@ -1,9 +1,9 @@
 #include <Arduino.h>
 
 #include "locorover.h"
-#include "src/Servo.h"
-#include "src/TinyIRReceiver.hpp"
-#include "src/ss_oled.h"
+#include "Servo.h"
+//#include "TinyIRReceiver.hpp"
+#include "ss_oled.h"
 
 Motor motor[2];
 Servo servo[3];
@@ -63,7 +63,7 @@ void setup_servo(unsigned char servo_ind, unsigned char pin)
 
 void setup_remote()
 {
-  initPCIInterruptForTinyReceiver();
+  //initPCIInterruptForTinyReceiver();
 }
 
 void setup_sonar(unsigned char sonar_ind, unsigned char trig_pin, unsigned char echo_pin)
@@ -81,34 +81,38 @@ void measure_sonar_distance(unsigned char sonar_ind)
   digitalWrite(sonar[sonar_ind].trig_pin, LOW);
 
   float duration_us = pulseIn(sonar[sonar_ind].echo_pin, HIGH);
-  sonar[sonar_ind].distance = 0.017 * duration_us;
+  float distance_cm = 0.017 * duration_us;
+  if(distance_cm > 0) sonar[sonar_ind].distance = (int)(0.017 * duration_us);
 }
 
-float get_sonar_distance(unsigned char sonar_ind)
+int get_sonar_distance(unsigned char sonar_ind)
 {
   return sonar[sonar_ind].distance;
 }
 
 unsigned char get_ir_button()
 {
-  return remote.button;
+  //return remote.button;
+  return 0;
 }
 
 bool get_is_ir_pressed()
 {
-  if (remote.keypress_registered)
+  /*if (remote.keypress_registered)
   {
     remote.keypress_registered = 0;
     return 1;
   }
-  else return 0;
+  else return 0;*/
+  return 0;
 }
 
-void handleReceivedTinyIRData(uint8_t aAddress, uint8_t aCommand, uint8_t aFlags)
+/*void handleReceivedTinyIRData(uint8_t aAddress, uint8_t aCommand, uint8_t aFlags)
 {
   remote.button = aCommand;
   remote.keypress_registered = 1;
-}
+}*/
+
 uint8_t ucBackBuffer[1024];
 
 void setup_display()
